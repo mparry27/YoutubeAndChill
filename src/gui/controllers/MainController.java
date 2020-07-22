@@ -1,26 +1,42 @@
 package gui.controllers;
 
-import gui.Main;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
-import static com.sun.javafx.scene.control.skin.Utils.getResource;
-
 public class MainController {
+    private WebEngine engine;
+
     @FXML
     private WebView video;
 
     @FXML
+    private Label label;
+
+    @FXML
+    private Button play;
+
+    @FXML
     private void initialize()
     {
-        WebEngine engine = video.getEngine();
+        engine = video.getEngine();
         engine.load(getClass().getResource(("../Video.html")).toString());
+//        engine.getLoadWorker().stateProperty().addListener(new ChangeListener() {
+//            @Override
+//            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+//                engine.getHistory().go(-1);
+//            }
+//        });
     }
 
     @FXML
     private void toggleVideo() {
-        video.getEngine().executeScript("stopVideo()");
+        engine.executeScript("toggleVideo();");
     }
 
 }

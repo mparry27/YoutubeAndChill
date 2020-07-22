@@ -4,7 +4,7 @@
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player"></div>
         <script>
-            // 2. This code loads the IFrame Player API code asynchronously.
+            var state;
             var tag = document.createElement('script');
 
             tag.src = "https://www.youtube.com/iframe_api";
@@ -16,9 +16,8 @@
             var player;
             function onYouTubeIframeAPIReady() {
                 player = new YT.Player('player', {
-                    height: '360',
-                    width: '640',
                     videoId: 'j7YG5ojRDFM',
+                    allowfullscreen: true,
                     events: {
                         'onReady': onPlayerReady,
                         'onStateChange': onPlayerStateChange
@@ -32,14 +31,41 @@
             }
 
             // 5. The API calls this function when the player's state changes.
-            //    The function indicates that when playing a video (state=1),
-            //    the player should play for six seconds and then stop.
-            var done = false;
+            //    The function indicates that when playing a video (state=1)
             function onPlayerStateChange(event) {
+                state = event.data
+                if(state == YT.PlayerState.ENDED) {
+                    loadVideo()
+                }
             }
+
+            function toggleVideo() {
+                if(state == YT.PlayerState.PAUSED) {
+                    player.playVideo();
+                } else if (state == YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                }
+            }
+
             function stopVideo() {
                 player.stopVideo();
             }
+
+            function queueVideo(){
+                player.cueVideoById("ff9ldkz1h1M", 30)
+                player.playVideo()
+            }
+
+            function loadVideo() {
+                player.loadVideoById("ff9ldkz1h1M", 5)
+            }
+
+            function getTime() {
+                return player.getCurrentTime()
+            }
         </script>
+        <style>
+            * {padding:0;margin:0;border:0;}
+        </style>
     </body>
 </html>

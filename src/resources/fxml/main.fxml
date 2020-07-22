@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainController">
+<GridPane alignment="center" hgap="10" stylesheets="@../css/style.css" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.MainController">
+   <children>
+      <WebView fx:id="video" disable="true" onMouseClicked="#toggleVideo" prefHeight="360.0" prefWidth="640.0" GridPane.rowIndex="1" />
+      <Label fx:id="label" text="Label" />
+      <ButtonBar buttonMinWidth="25.0" GridPane.rowIndex="1">
+        <buttons>
+          <Button fx:id="play" contentDisplay="GRAPHIC_ONLY" maxHeight="35.0" maxWidth="35.0" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#toggleVideo" prefHeight="35.0" prefWidth="35.0" style="-fx-graphic: 'PlayButton.png'" text="Play" ButtonBar.buttonData="LEFT" />
+            <Button mnemonicParsing="false" text="Button" />
+        </buttons>
+         <GridPane.margin>
+            <Insets top="335.0" />
+         </GridPane.margin>
+      </ButtonBar>
+   </children>
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
-   <children>
-
-       <WebView fx:id="video" onMouseClicked="#toggleVideo" prefHeight="360.0" prefWidth="640.0" />
-   </children>
 </GridPane>
