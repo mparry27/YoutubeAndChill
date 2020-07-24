@@ -11,10 +11,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../resources/fxml/main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
         primaryStage.setTitle("YouTube and Chill");
         primaryStage.setScene(new Scene(root, 800, 600));
-        primaryStage.getIcons().add(new Image("file:../resources/images/YoutubeAndChillIcon.png"));
         primaryStage.show();
     }
 

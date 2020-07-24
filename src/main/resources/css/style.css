@@ -1,0 +1,17 @@
+*
+{
+    padding: 0;
+    margin: 0;
+    border: 0;
+    -fx-background-color: #1a1a1a;
+}
+
+.button{
+    -fx-border-color: white;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+    maxWidth: 32;
+    prefWidth: 32;
+}
