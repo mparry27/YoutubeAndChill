@@ -8,8 +8,8 @@
    <children>
        <WebView fx:id="video" disable="true" maxHeight="315.0" maxWidth="560.0" onMouseClicked="#togglePauseVideo" prefHeight="315.0" prefWidth="560.0" GridPane.rowIndex="1" />
        <Button mnemonicParsing="false" onAction="#togglePauseVideo" GridPane.rowIndex="1" />
-       <Label fx:id="label" text="Label" />
-       <ButtonBar buttonMinWidth="32" GridPane.rowIndex="2">
+       <Slider fx:id="timeLine" GridPane.rowIndex="2"/>
+       <ButtonBar buttonMinWidth="32" GridPane.rowIndex="3">
            <buttons>
                <Button fx:id="prev" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#prevVideo" ButtonBar.buttonData="LEFT" />
                <Button fx:id="play" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#togglePauseVideo" ButtonBar.buttonData="LEFT" />
@@ -23,6 +23,7 @@
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />

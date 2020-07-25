@@ -3,6 +3,11 @@
     padding: 0;
     margin: 0;
     border: 0;
+
+}
+
+.GridPane
+{
     -fx-background-color: #1a1a1a;
 }
 
