@@ -11,7 +11,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 
-public class MainController {
+public class GuiController {
     private WebEngine engine;
     private JSObject page;
 

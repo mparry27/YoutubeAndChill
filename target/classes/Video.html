@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <body>
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
+        <script>
+            var state;
+            var javaConnector;
+            var started = false;
+            var tag = document.createElement('script');
+
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            var player;
+            function onYouTubeIframeAPIReady() {
+                player = new YT.Player('player', {
+                    width: '560',
+                    height: '315',
+                    videoId: 'j7YG5ojRDFM',
+                    playerVars: { 'autoplay': 1, 'controls': 0, 'modestbranding': 1, 'frameborder': 1},
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+
+            function onPlayerReady(event) {
+                event.target.playVideo();
+            }
+
+            function onPlayerStateChange(event) {
+                state = event.data;
+                if (event.data == YT.PlayerState.ENDED) {
+                    loadVideo('H8GptHQ0W2U');
+                    started = false;
+                }
+                if (event.data == YT.PlayerState.PLAYING && !started) {
+                    javaConnector.startVideo();
+                    started = true;
+                }
+            }
+
+            function toggleVideo() {
+                if(state == YT.PlayerState.PAUSED) {
+                    player.playVideo();
+                } else if (state == YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                }
+            }
+
+            function stopVideo() {
+                player.stopVideo();
+            }
+
+            function queueVideo(id){
+                player.cueVideoById(id);
+            }
+
+            function loadVideo(id) {
+                player.loadVideoById(id);
+            }
+
+            function getTime() {
+                return player.getCurrentTime();
+            }
+        </script>
+        <style>
+            * {
+                padding:0;
+                margin:0;
+                border:0;
+            }
+        </style>
+    </body>
+</html>
