@@ -14,12 +14,16 @@ import netscape.javascript.JSObject;
 public class GuiController {
     private WebEngine engine;
     private JSObject page;
+    private double oldSliderValue = 100;
 
     @FXML
     private WebView video;
 
     @FXML
     private Slider timeLine;
+
+    @FXML
+    private Slider volume;
 
     @FXML
     private Button play;
@@ -36,6 +40,9 @@ public class GuiController {
 
     @FXML
     private Button mute;
+    private ImageView muteIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/MuteButton.png")));
+    private ImageView lowIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/LowButton.png")));
+    private ImageView highIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/HighButton.png")));
 
     @FXML
     private void initialize()
@@ -43,6 +50,7 @@ public class GuiController {
         play.setGraphic(playIcon);
         forw.setGraphic(forwIcon);
         prev.setGraphic(prevIcon);
+        mute.setGraphic(highIcon);
 
         engine = video.getEngine();
         engine.load(getClass().getResource(("/Video.html")).toString());
@@ -56,6 +64,17 @@ public class GuiController {
 
         timeLine.valueProperty().addListener((obs, oldValue, newValue) -> {
             engine.executeScript("player.seekTo(" + newValue.doubleValue() + ", true)");
+        });
+
+        volume.valueProperty().addListener((obs, oldValue, newValue) -> {
+            engine.executeScript("player.setVolume(" + newValue.doubleValue() + ", true)");
+            if(volume.getValue() == 0) {
+                mute.setGraphic(muteIcon);
+            } else if(volume.getValue() < 50) {
+                mute.setGraphic(lowIcon);
+            } else if(volume.getValue() >= 50) {
+                mute.setGraphic(highIcon);
+            }
         });
     }
 
@@ -79,7 +98,16 @@ public class GuiController {
 
     @FXML
     private void toggleMuteVideo() {
-
+        if((boolean)engine.executeScript("player.isMuted()") || volume.getValue() == 0) {
+            engine.executeScript("player.unMute()");
+            mute.setGraphic(highIcon);
+            volume.setValue(oldSliderValue);
+        } else {
+            engine.executeScript("player.mute()");
+            mute.setGraphic(muteIcon);
+            oldSliderValue = volume.getValue();
+            volume.setValue(0);
+        }
     }
 
     @FXML

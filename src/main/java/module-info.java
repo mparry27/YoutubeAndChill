@@ -5,9 +5,10 @@ module YoutubeAndChill {
     requires javafx.web;
     requires jdk.jsobject;
     requires java.net.http;
-    requires org.json;
     requires com.google.gson;
 
+    opens gui;
+    opens gui.controllers;
     opens domain;
     opens domain.video;
 }

@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.web.*?>
 
-<GridPane alignment="center" style="-fx-background-color: #1a1a1a;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GuiController">
+<GridPane style="-fx-background-color: #1a1a1a;" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.GuiController">
    <children>
-       <WebView fx:id="video" disable="true" maxHeight="315.0" maxWidth="560.0" onMouseClicked="#togglePauseVideo" prefHeight="315.0" prefWidth="560.0" GridPane.rowIndex="1" />
-       <Button mnemonicParsing="false" onAction="#togglePauseVideo" GridPane.rowIndex="1" />
-       <Slider fx:id="timeLine" GridPane.rowIndex="2"/>
-       <ButtonBar buttonMinWidth="32" GridPane.rowIndex="3">
-           <buttons>
-               <Button fx:id="prev" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#prevVideo" ButtonBar.buttonData="LEFT" />
-               <Button fx:id="play" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#togglePauseVideo" ButtonBar.buttonData="LEFT" />
-               <Button fx:id="forw" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#nextVideo" ButtonBar.buttonData="LEFT" />
-               <Button fx:id="volume" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#toggleMuteVideo" />
-               <Slider />
-           </buttons>
-      </ButtonBar>
+       <GridPane>
+           <children>
+               <TextField prefWidth="500.0" promptText="Enter Youtube video url or id to add video" text="Youtube Video URL or ID" GridPane.columnIndex="0">
+               <GridPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </GridPane.margin></TextField>
+            <Button fx:id="add" id="addBtn" mnemonicParsing="false" text="Button" GridPane.columnIndex="1"/>
+           </children>
+       </GridPane>
+      <GridPane alignment="center" GridPane.rowIndex="1">
+         <children>
+             <WebView fx:id="video" disable="true" maxHeight="315.0" maxWidth="560.0" onMouseClicked="#togglePauseVideo" prefHeight="315.0" prefWidth="560.0" GridPane.rowIndex="1" />
+             <Button maxHeight="315.0" maxWidth="560.0" mnemonicParsing="false" onAction="#togglePauseVideo" prefHeight="315.0" prefWidth="560.0" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin></Button>
+             <Slider fx:id="timeLine" GridPane.rowIndex="2" />
+             <ButtonBar buttonMinWidth="32" GridPane.rowIndex="3">
+                 <buttons>
+                     <Button fx:id="prev" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#prevVideo" ButtonBar.buttonData="LEFT" />
+                     <Button fx:id="play" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#togglePauseVideo" ButtonBar.buttonData="LEFT" />
+                     <Button fx:id="forw" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#nextVideo" ButtonBar.buttonData="LEFT" />
+                     <Button fx:id="mute" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#toggleMuteVideo" />
+                     <Slider fx:id="volume"/>
+                 </buttons>
+            </ButtonBar>
+         </children>
+      </GridPane>
    </children>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
 </GridPane>
