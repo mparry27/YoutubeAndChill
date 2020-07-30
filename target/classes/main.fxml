@@ -9,12 +9,19 @@
    <children>
        <GridPane>
            <children>
-               <TextField prefWidth="500.0" promptText="Enter Youtube video url or id to add video" text="Youtube Video URL or ID" GridPane.columnIndex="0">
+               <TextField fx:id="url" onMouseClicked="#highlightText" prefWidth="518.0" promptText="Enter Youtube video url or id to add video" text="Youtube Video URL or ID" GridPane.columnIndex="0">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin></TextField>
-            <Button fx:id="add" id="addBtn" mnemonicParsing="false" text="Button" GridPane.columnIndex="1"/>
+            <Button id="addBtn" fx:id="add" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" text="Add Video" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
            </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+         </rowConstraints>
        </GridPane>
       <GridPane alignment="center" GridPane.rowIndex="1">
          <children>
@@ -23,17 +30,33 @@
                <GridPane.margin>
                   <Insets />
                </GridPane.margin></Button>
-             <Slider fx:id="timeLine" GridPane.rowIndex="2" />
+             <Slider fx:id="timeLine" onMouseClicked="#startTimelineSeek" onMousePressed="#startTimelineSeek" onMouseReleased="#endTimelineSeek" GridPane.rowIndex="2" />
              <ButtonBar buttonMinWidth="32" GridPane.rowIndex="3">
                  <buttons>
                      <Button fx:id="prev" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#prevVideo" ButtonBar.buttonData="LEFT" />
                      <Button fx:id="play" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#togglePauseVideo" ButtonBar.buttonData="LEFT" />
                      <Button fx:id="forw" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#nextVideo" ButtonBar.buttonData="LEFT" />
                      <Button fx:id="mute" contentDisplay="GRAPHIC_ONLY" maxWidth="32.0" mnemonicParsing="false" onAction="#toggleMuteVideo" />
-                     <Slider fx:id="volume"/>
+                     <Slider fx:id="volume" prefWidth="75.0" value="100.0" />
                  </buttons>
             </ButtonBar>
          </children>
+         <columnConstraints>
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
       </GridPane>
    </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
 </GridPane>

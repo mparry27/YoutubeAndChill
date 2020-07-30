@@ -1,20 +1,35 @@
 package gui.controllers;
 
+import domain.video.Video;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.concurrent.Worker;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.util.Duration;
 import netscape.javascript.JSObject;
 
-public class GuiController {
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static java.lang.Thread.sleep;
+
+public class GuiController{
     private WebEngine engine;
     private JSObject page;
     private double oldSliderValue = 100;
+    private ArrayList<Video> videoQueue;
+    private Timeline timelineSync;
 
     @FXML
     private WebView video;
@@ -45,12 +60,19 @@ public class GuiController {
     private ImageView highIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/HighButton.png")));
 
     @FXML
-    private void initialize()
-    {
+    private TextField url;
+
+    @FXML
+    private Button add;
+    private ImageView addIcon = new ImageView(new Image(getClass().getResourceAsStream("/images/AddButton.png")));
+
+    @FXML
+    private void initialize() {
         play.setGraphic(playIcon);
         forw.setGraphic(forwIcon);
         prev.setGraphic(prevIcon);
         mute.setGraphic(highIcon);
+        add.setGraphic(addIcon);
 
         engine = video.getEngine();
         engine.load(getClass().getResource(("/Video.html")).toString());
@@ -62,8 +84,18 @@ public class GuiController {
             }
         });
 
+        timelineSync = new Timeline(new KeyFrame(Duration.seconds(0.1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!timeLine.isFocused() && (int)page.getMember("state") == 1) {
+                    timeLine.setValue((double)engine.executeScript("player.getCurrentTime()"));
+                }
+            }
+        }));
+
         timeLine.valueProperty().addListener((obs, oldValue, newValue) -> {
-            engine.executeScript("player.seekTo(" + newValue.doubleValue() + ", true)");
+            if((int)page.getMember("state") == 2)
+                engine.executeScript("player.seekTo(" + newValue.doubleValue() + ");");
         });
 
         volume.valueProperty().addListener((obs, oldValue, newValue) -> {
@@ -71,8 +103,10 @@ public class GuiController {
             if(volume.getValue() == 0) {
                 mute.setGraphic(muteIcon);
             } else if(volume.getValue() < 50) {
+                engine.executeScript("player.unMute()");
                 mute.setGraphic(lowIcon);
             } else if(volume.getValue() >= 50) {
+                engine.executeScript("player.unMute()");
                 mute.setGraphic(highIcon);
             }
         });
@@ -83,7 +117,24 @@ public class GuiController {
         timeLine.setValue(0);
         play.setGraphic(pauseIcon);
         timeLine.setMax((double)engine.executeScript("player.getDuration()"));
+        timelineSync.setCycleCount(Timeline.INDEFINITE);
+        timelineSync.play();
+    }
 
+    @FXML
+    private void startTimelineSeek() {
+        if((int)page.getMember("state") == 1){
+            togglePauseVideo();
+            engine.executeScript("player.seekTo(" + timeLine.getValue() + ");");
+        }
+    }
+
+    @FXML
+    private void endTimelineSeek() {
+        if((int)page.getMember("state") == 1) {
+            togglePauseVideo();
+        }
+        play.requestFocus();
     }
 
     @FXML
@@ -120,4 +171,9 @@ public class GuiController {
 
     }
 
+    @FXML
+    private void highlightText() {
+        url.clear();
+        url.requestFocus();
+    }
 }
