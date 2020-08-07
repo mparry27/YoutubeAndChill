@@ -6,6 +6,7 @@ module YoutubeAndChill {
     requires jdk.jsobject;
     requires java.net.http;
     requires com.google.gson;
+    requires org.json;
 
     opens gui;
     opens gui.controllers;

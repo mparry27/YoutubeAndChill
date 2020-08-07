@@ -1,6 +1,7 @@
 package gui.controllers;
 
 import domain.video.Video;
+import domain.video.VideoController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.concurrent.Worker;
@@ -13,23 +14,20 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import netscape.javascript.JSObject;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import static java.lang.Thread.sleep;
+import java.util.HashMap;
 
 public class GuiController{
     private WebEngine engine;
     private JSObject page;
     private double oldSliderValue = 100;
-    private ArrayList<Video> videoQueue;
     private Timeline timelineSync;
+    private VideoController videoController = new VideoController();
 
     @FXML
     private WebView video;
@@ -39,6 +37,9 @@ public class GuiController{
 
     @FXML
     private Slider volume;
+
+    @FXML
+    private VBox que;
 
     @FXML
     private Button play;
@@ -122,6 +123,23 @@ public class GuiController{
     }
 
     @FXML
+    public void nextVideo() {
+        String nextVideoId = loadNextVideo();
+        if(nextVideoId != null) {
+            engine.executeScript("loadVideo('"+nextVideoId+"')");
+            que.getChildren().remove(0);
+        }
+    }
+
+    public String loadNextVideo() {
+        if(!videoController.videoQueue.isEmpty()) {
+            Video nextVideo = videoController.videoQueue.remove(0);
+            return nextVideo.getItems().get(0).id;
+        }
+        return null;
+    }
+
+    @FXML
     private void startTimelineSeek() {
         if((int)page.getMember("state") == 1){
             togglePauseVideo();
@@ -162,8 +180,16 @@ public class GuiController{
     }
 
     @FXML
-    private void nextVideo() {
-
+    private void AddVideoToQueue() {
+        if(!url.getText().trim().isEmpty()) {
+            String videoURL = url.getText();
+            Video newVideo = videoController.QueueVideo(videoURL);
+            Label label = new Label();
+            label.setText(newVideo.getItems().get(0).snippet.getTitle());
+            label.setStyle("-fx-background-color: #abcdef;");
+            label.setWrapText(true);
+            que.getChildren().add(label);
+        }
     }
 
     @FXML

@@ -6,7 +6,6 @@
         <script>
             var state;
             var javaConnector;
-            var started = false;
             var tag = document.createElement('script');
 
             tag.src = "https://www.youtube.com/iframe_api";
@@ -34,13 +33,12 @@
             function onPlayerStateChange(event) {
                 state = event.data;
                 if (event.data == YT.PlayerState.ENDED) {
-                    loadVideo('H8GptHQ0W2U');
-                    started = false;
+                    loadVideo(javaConnector.nextVideo());
                 }
-                if (event.data == YT.PlayerState.PLAYING && !started) {
+                if (event.data == YT.PlayerState.PLAYING) {
                     javaConnector.startVideo();
-                    started = true;
                 }
+
             }
 
             function toggleVideo() {
